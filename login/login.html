@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../styles.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Calligraffitti&family=Indie+Flower&family=Roboto:wght@300;400&display=swap"
+        rel="stylesheet">
+    <title>Document</title>
+    <style>
+        #container{
+            width:100%;
+            padding :10px;
+            margin:auto;
+            display:flex;
+            flex-direction: row-reverse;
+        }
+        #div1{
+            width:50%;
+            height:100%;
+            margin: 40px 50px;
+            padding: 50px;
+            
+        }
+        #div2{
+            width:50%;
+            height:100%;
+            padding:10px;
+          
+        }
+        /* img{
+            padding:0px 50px 0px 0px;  
+        } */
+        #form1 {
+            margin: 100px;
+            padding: 100px 40px 100px 80px ;
+            text-align: center;
+            color:  rgb(60, 155, 139);
+           
+        }
+        legend {
+            font-family: 'Indie Flower', cursive;
+            font-size: 25px;
+        }
+
+        input {
+            width: 200px;
+            height: 30px;
+            font-size: 15px;
+            border-radius: 4px;
+            border: none;
+            outline: none;
+        }
+
+        input::placeholder {
+            color:  rgb(60, 155, 139);
+            padding-left: 5px;
+
+        }
+
+        #s1 {
+            color: red;
+        }
+
+        a {
+            color: red;
+        }
+
+        #submit {
+            text-align: center;
+            margin: 15px;
+            background-color:   rgb(60, 155, 139);
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 4px;
+            height: 30px;
+            width: 100px;
+        }
+        </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="div1">
+            <img src="../Assets/welcome2.png" height="500" width="500">
+        </div>
+        <div id="div2">
+        <form id="form1" onsubmit="onSubmit(event)">
+            <legend>welcome to <span id="s1">Enlighters.com</span></legend>
+            <br>
+            <input type="text" name="username" id="username" placeholder="username or E-mail" reuired>
+            <br>
+            <br>
+            <input type="password" name="pass" id="pass" placeholder="passwords" reuired>
+            <br>
+            <!-- <input type="submit" class="submit" value="Log in" > -->
+            <button type="submit" id="submit"> Log in</button>
+            <br>
+
+            <span id="s"> Don't have an account?
+                <a href="../singup/index.html">
+                    Sign Up
+                </a>
+            </span>
+        </form>
+    </div>
+    </div>
+
+    <script>
+
+        var submit = document.getElementById("submit");
+        var data = JSON.parse(localStorage.getItem("data"));
+        var username = document.getElementById("username");
+        var password = document.getElementById("pass");
+        var patternPass =  /[A-Za-z0-9]{8,}/;
+        var patternEmail = /^[A-za-z0-9_.]{3,}(@)[A-Za-z]{3,}(.com)/;
+
+            // var test = patternUser.test(userName);
+    
+      
+        username.onchange = function (event) {
+            if (!patternEmail.test(event.target.value)) {
+                username.style.border = '1px solid red'
+            } else {
+                username.style.border = '1px solid green'
+            }
+        }
+        password.onchange = function (event) {
+            if (!patternPass.test(event.target.value)) {
+                password.style.border = '1px solid red'
+            } else {
+                password.style.border = '1px solid green'
+            }
+        }
+
+        function onSubmit(event) {
+            event.preventDefault();
+            var user = data.users.find((user)=> user.email===username.value && user.password===password.value)
+
+            if (user){
+                console.log('authentication')
+                data.current_user = user.id
+                localStorage.setItem("data", JSON.stringify(data))
+                window.location.href = "../index.html"
+            }else{
+                alert('email is not in our database!')
+                }
+        }
+    </script>
+</body>
+
+
+</html>
